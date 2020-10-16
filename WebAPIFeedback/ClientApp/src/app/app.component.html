@@ -1,0 +1,71 @@
+﻿<div *ngIf="!done">
+<div class="container">
+    <form class="card" [formGroup]="myForm" (submit)="submit(post)">
+        <div class="topper">
+            <h2>Напишите нам</h2>
+        </div>
+
+        <div class="form-control">
+            <label>Ваше имя: </label><input type="text" placeholder="Имя" name="name" formControlName="nameUser" [(ngModel)]="post.name">
+            <div *ngIf="myForm.get('nameUser').invalid && myForm.get('nameUser').touched"
+                 class="validation">
+                <small>Поле имя не может быть пустым</small>
+            </div>
+        </div>
+
+        <div class="form-control">
+            <label>Ваш Email: </label><input type="email" placeholder="text@example.com" name="email" formControlName="emailUser" [(ngModel)]="post.email">
+            <div *ngIf="myForm.get('emailUser').invalid && myForm.get('emailUser').touched"
+                 class="validation">
+                <small *ngIf="myForm.get('emailUser').errors.required">Поле Email не может быть пустым</small>
+                <small *ngIf="myForm.get('emailUser').errors.email">Введите корректный адресс электронной почты</small>
+            </div>
+        </div>
+
+        <div class="form-control">
+            <label>Ваш телефон: </label><input type="text" name="tel" formControlName="telUser" placeholder="(123)456-7890"
+                                               [(ngModel)]="post.tel"
+                                               [textMask]="{mask: telMask}" pattern="\(\d{3}\)\d{3}-\d{4}">
+            <div *ngIf="myForm.get('telUser').invalid && myForm.get('telUser').touched"
+                 class="validation">
+                <small *ngIf="myForm.get('telUser').errors.required; else elseBlock">Поле телефон не может быть пустым</small>
+                <ng-template #elseBlock><small>Неверный номер телефона</small></ng-template>
+            </div>
+        </div>
+
+        <div class="form-control">
+            Тема:
+            <select (change)="onChange($event.target.value)" formControlName="topic">
+                <option *ngFor="let topic of topics">{{topic}}</option>
+            </select>
+        </div>
+
+        <div class="form-control">
+            <label>Ваше сообщение: </label><textarea placeholder="Текст сообщения" name="text" formControlName="textUser" [(ngModel)]="post.msg"></textarea>
+            <div *ngIf="myForm.get('textUser').invalid && myForm.get('textUser').touched"
+                 class="validation">
+                <small>Поле текст сообщения не может быть пустым</small>
+            </div>
+        </div>
+
+
+        <div class="form-control">
+            <label>Введите результат сложения следующих двух чисел {{firstNum}} и {{secondNum}}:</label><input type="text" name="sum" placeholder="Число" [(ngModel)]="sumClient" formControlName="sumNumber" />
+            <div *ngIf="myForm.get('sumNumber').invalid && myForm.get('sumNumber').touched || errorSum"
+                 class="validation">
+                <small *ngIf="myForm.get('sumNumber').invalid && myForm.get('sumNumber').touched">Поле результат сложения не может быть пустым</small>
+                <small *ngIf="errorSum">Неверный результат, числа изменены</small>
+            </div>
+        </div>
+        <button type="submit" class="btn" [disabled]="myForm.invalid">Отправить сообщение</button>
+    </form>
+</div>
+    </div>
+
+<div class="container" *ngIf="done">
+    <div>Получено от сервера:</div>
+    <div>ID_POST: {{receivedPost.idPost}}</div>
+    <div>POST_CONTENT: {{receivedPost.postContent}}</div>
+    <div>ID_USER: {{receivedPost.idUser}}</div>
+    <div>ID_TOPIC: {{receivedPost.idTopic}}</div>
+</div>
