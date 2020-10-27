@@ -49,14 +49,15 @@
         </div>
 
 
-        <div class="form-control">
+        <!--<div class="form-control">
             <label>Введите результат сложения следующих двух чисел {{firstNum}} и {{secondNum}}:</label><input type="text" name="sum" placeholder="Число" [(ngModel)]="sumClient" formControlName="sumNumber" />
             <div *ngIf="myForm.get('sumNumber').invalid && myForm.get('sumNumber').touched || errorSum"
                  class="validation">
                 <small *ngIf="myForm.get('sumNumber').invalid && myForm.get('sumNumber').touched">Поле результат сложения не может быть пустым</small>
                 <small *ngIf="errorSum">Неверный результат, числа изменены</small>
             </div>
-        </div>
+        </div>-->
+
         <button type="submit" class="btn" [disabled]="myForm.invalid">Отправить сообщение</button>
     </form>
 </div>

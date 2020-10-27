@@ -18,10 +18,6 @@ export class AppComponent implements OnInit {
     receivedPost: PostFromDB;
     done: boolean = false;
     public telMask = ['(', /[0-9]/, /\d/, /\d/, ')', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-    sum: number;
-    sumClient: number;
-    firstNum: number;
-    secondNum: number;
     errorSum: boolean = false;
 
     topics: Array<string> = [
@@ -32,7 +28,7 @@ export class AppComponent implements OnInit {
     constructor(private httpService: HttpService) { }
 
     ngOnInit(): void {
-        this.loadCapha();
+        this.post.topic = this.topics[0];
         this.myForm = new FormGroup({
             nameUser: new FormControl(
                 null,
@@ -50,30 +46,12 @@ export class AppComponent implements OnInit {
                 [
                     Validators.required
                 ]),
-            topic: new FormControl(
-                "",
-                [
-                    Validators.required
-                ]),
             textUser: new FormControl(
                 null,
                 [
                     Validators.required
                 ]),
-            sumNumber: new FormControl(
-                null,
-                [
-                    Validators.required
-                ])
         });
-    }
-
-    loadCapha() {
-        this.firstNum = Math.random() * 10;
-        this.secondNum = Math.random() * 10;
-        this.firstNum = Math.round(this.firstNum);
-        this.secondNum = Math.round(this.secondNum);
-        this.sum = this.firstNum + this.secondNum;
     }
 
     onChange(topicValue) {
@@ -81,16 +59,11 @@ export class AppComponent implements OnInit {
     }
 
     submit(post) {
-        if (this.sum == this.sumClient) {
             this.httpService.postData(post)
                 .subscribe(
                     (data: PostFromDB) => { this.receivedPost = data; this.done = true; },
                     error => console.log(error)
                 );
-        } else {
-            this.loadCapha();
-            this.errorSum = true;
-        }
     }
 
 }
